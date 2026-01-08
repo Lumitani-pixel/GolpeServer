@@ -4,16 +4,33 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.normalv.golpeserver.websocket.Server;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 
 public class MainApplication extends Application {
+    private static Server server;
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("ServerMenu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+        Scene scene = new Scene(fxmlLoader.load(), 800, 400);
         stage.setTitle("Golpe Server");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void createServer() {
+        server = new Server(new InetSocketAddress("localhost", 1598));
+        server.start();
+    }
+
+    public static void setServer(Server s) {
+        server = s;
+    }
+
+    public static Server getServer() {
+        return server;
     }
 }

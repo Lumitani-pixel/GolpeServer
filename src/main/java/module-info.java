@@ -10,6 +10,7 @@ module net.normalv.golpeserver {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
+    requires org.java_websocket;
 
     opens net.normalv.golpeserver to javafx.fxml;
     exports net.normalv.golpeserver;

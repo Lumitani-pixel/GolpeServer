@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.normalv.golpeserver.MainController">
   <tabs>
     <Tab closable="false" text="Main">
          <content>
@@ -20,7 +20,7 @@
                         <Font name="System Bold Italic" size="33.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" text="Start" textFill="#0042ab" />
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClick" text="Start" textFill="#0042ab" />
                </children>
             </VBox>
          </content>
