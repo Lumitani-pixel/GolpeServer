@@ -32,7 +32,7 @@
     </Tab>
       <Tab closable="false" text="Logs">
          <content>
-            <TextArea editable="false" prefHeight="200.0" prefWidth="200.0" />
+            <TextArea fx:id="logs" editable="false" prefHeight="200.0" prefWidth="200.0" />
          </content>
       </Tab>
   </tabs>
