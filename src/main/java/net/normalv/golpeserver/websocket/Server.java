@@ -5,12 +5,14 @@ import net.normalv.golpeserver.game.Player;
 import net.normalv.golpeserver.game.Session;
 import net.normalv.golpeserver.websocket.packets.Packet;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
+import net.normalv.golpeserver.websocket.packets.impl.ConfirmRegistrationPacket;
 import net.normalv.golpeserver.websocket.packets.impl.RegisterPacket;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.util.UUID;
 
 //TODO implement better logging
 public class Server extends WebSocketServer {
@@ -36,9 +38,7 @@ public class Server extends WebSocketServer {
         Packet packet = PacketCodec.decode(message);
 
         if(packet instanceof RegisterPacket registerPacket) {
-            Player player = new Player(registerPacket.uuid, registerPacket.name, webSocket);
-            session.addPlayer(player);
-            log(player.getName()+" joined with uuid: "+player.getUuid());
+            handleRegistration(registerPacket, webSocket);
         }
     }
 
@@ -52,6 +52,16 @@ public class Server extends WebSocketServer {
         log("Started Golpe Server");
         session = new Session(2);
         log("Opened new Session with max player 2");
+    }
+
+    private void handleRegistration(RegisterPacket registerPacket, WebSocket webSocket) {
+        UUID uuid = UUID.randomUUID();
+        Player player = new Player(uuid, registerPacket.name, webSocket);
+
+        session.addPlayer(player);
+        log(player.getName()+" joined assigned uuid: "+player.getUuid());
+
+        webSocket.send(PacketCodec.encode(new ConfirmRegistrationPacket(uuid)));
     }
 
     public Session getActiveSession() {
