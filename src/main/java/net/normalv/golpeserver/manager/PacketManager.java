@@ -3,6 +3,7 @@ package net.normalv.golpeserver.manager;
 import net.normalv.golpeserver.websocket.packets.Packet;
 import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
 import net.normalv.golpeserver.websocket.packets.impl.ChatPacket;
+import net.normalv.golpeserver.websocket.packets.impl.RegisterPacket;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +14,7 @@ public class PacketManager {
     public PacketManager() {
         register("chat", ChatPacket.class);
         register("card", CardPacket.class);
+        register("register", RegisterPacket.class);
     }
 
     public void register(String id, Class<? extends Packet> clazz) {
