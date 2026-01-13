@@ -1,5 +1,6 @@
 package net.normalv.golpeserver.game;
 
+import net.normalv.golpeserver.MainApplication;
 import net.normalv.golpeserver.manager.CardManager;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Session {
     }
 
     public void startGame() {
+        cardDeck = MainApplication.cardManager.getCardsFromJson(true);
     }
 
     public CardManager.Card getCardFromDeck(boolean removeCard) {
