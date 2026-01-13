@@ -5,6 +5,7 @@ import net.normalv.golpeserver.MainController;
 import net.normalv.golpeserver.manager.CardManager;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
 import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
+import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,10 @@ public class Session {
     }
 
     public void stopGame(String reason) {
+        running = false;
+        for(Player player : players) {
+            player.getWebSocket().send(PacketCodec.encode(new StopGamePacket(reason)));
+        }
     }
 
     public List<CardManager.Card> getCardsFromDeck(int amount) {
