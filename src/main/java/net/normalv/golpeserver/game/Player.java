@@ -1,7 +1,9 @@
 package net.normalv.golpeserver.game;
 
 import net.normalv.golpeserver.manager.CardManager;
+import org.java_websocket.WebSocket;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -10,10 +12,12 @@ public class Player {
     private List<CardManager.Card> handCards = new ArrayList<>();
     private UUID uuid;
     private String name;
+    private WebSocket webSocket;
 
-    public Player(UUID uuid, String name) {
+    public Player(UUID uuid, String name, WebSocket webSocket) {
         this.uuid = uuid;
         this.name = name;
+        this.webSocket = webSocket;
     }
 
     public boolean hasCard(CardManager.Card card) {
@@ -38,5 +42,9 @@ public class Player {
 
     public String getName() {
         return name;
+    }
+
+    public WebSocket getWebSocket() {
+        return webSocket;
     }
 }

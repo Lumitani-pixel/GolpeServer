@@ -1,15 +1,22 @@
 package net.normalv.golpeserver;
 
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 public class MainController {
     private static MainController instance;
 
     @FXML
     private Button startButton;
+    @FXML
+    private Button startGameButton;
+
+    @FXML
+    private Label playerCount;
 
     @FXML
     private TextArea logs;
@@ -22,12 +29,27 @@ public class MainController {
     protected void onStartButtonClick() throws InterruptedException {
         if(MainApplication.getServer() == null) {
             MainApplication.createServer();
-            startButton.setText("Stop");
+            startButton.setText("Stop Server");
         } else {
             MainApplication.getServer().stop();
             MainApplication.setServer(null);
-            startButton.setText("Start");
+            startButton.setText("Start Server");
         }
+    }
+
+    @FXML
+    protected  void onStartGameButton() throws InterruptedException {
+        if(MainApplication.getServer().getActiveSession().isRunning()) {
+            MainApplication.getServer().getActiveSession().stopGame("Force closed by server operator");
+            startGameButton.setText("Start Game");
+        } else {
+            MainApplication.getServer().getActiveSession().startGame();
+            startGameButton.setText("Stop Game");
+        }
+    }
+
+    public void setPlayerCount(int count) {
+        playerCount.setText(count+"/"+MainApplication.getServer().getActiveSession().getMaxPlayers()+" Players");
     }
 
     public void addTextToLog(String text) {

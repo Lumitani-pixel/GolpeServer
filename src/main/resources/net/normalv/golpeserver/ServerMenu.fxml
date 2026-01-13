@@ -13,14 +13,20 @@
   <tabs>
     <Tab closable="false" text="Main">
          <content>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="200.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="100.0">
                <children>
                   <Label text="Golpe Server" textFill="#01478f">
                      <font>
                         <Font name="System Bold Italic" size="33.0" />
                      </font>
                   </Label>
-                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClick" text="Start" textFill="#0042ab" />
+                  <Button fx:id="startButton" mnemonicParsing="false" onAction="#onStartButtonClick" text="Start Server" textFill="#0042ab" />
+                  <VBox alignment="CENTER" prefHeight="164.0" prefWidth="600.0" spacing="20.0">
+                     <children>
+                        <Label fx:id="playerCount" text="0/2 Players" />
+                        <Button fx:id="startGameButton" mnemonicParsing="false" onAction="#onStartGameButton" text="Start Game" />
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </content>

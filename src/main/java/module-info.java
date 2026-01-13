@@ -12,7 +12,7 @@ module net.normalv.golpeserver {
     requires com.almasb.fxgl.all;
     requires org.java_websocket;
     requires com.google.gson;
-    requires net.normalv.golpeserver;
+    requires jdk.compiler;
 
     opens net.normalv.golpeserver.websocket.packets.impl to com.google.gson;
     opens net.normalv.golpeserver.websocket.packets to com.google.gson;

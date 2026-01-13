@@ -36,7 +36,7 @@ public class Server extends WebSocketServer {
         Packet packet = PacketCodec.decode(message);
 
         if(packet instanceof RegisterPacket registerPacket) {
-            Player player = new Player(registerPacket.uuid, registerPacket.name);
+            Player player = new Player(registerPacket.uuid, registerPacket.name, webSocket);
             session.addPlayer(player);
             log(player.getName()+" joined with uuid: "+player.getUuid());
         }

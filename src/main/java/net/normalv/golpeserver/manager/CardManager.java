@@ -26,7 +26,7 @@ public class CardManager {
 
         Reader reader;
         try {
-            reader = new FileReader(String.valueOf(MainApplication.class.getResource("deckConfig.json")));
+            reader = new FileReader(MainApplication.class.getResource("deckConfig.json").getPath());
         } catch (FileNotFoundException e) {
             System.out.println("Error in getting deck config: "+e.getMessage());
             throw new RuntimeException(e);
