@@ -16,6 +16,7 @@ module net.normalv.golpeserver {
 
     opens net.normalv.golpeserver.websocket.packets.impl to com.google.gson;
     opens net.normalv.golpeserver.websocket.packets to com.google.gson;
+    opens net.normalv.golpeserver.manager to com.google.gson;
 
     opens net.normalv.golpeserver to javafx.fxml;
     exports net.normalv.golpeserver;

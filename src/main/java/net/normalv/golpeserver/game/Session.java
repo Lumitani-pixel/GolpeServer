@@ -22,6 +22,11 @@ public class Session {
     }
 
     public void startGame() {
+        if(players.isEmpty()){
+            stopGame("No Players in Session");
+            return;
+        }
+
         cardDeck = MainApplication.cardManager.getCardsFromJson(true);
         running = true;
 
@@ -35,8 +40,10 @@ public class Session {
 
     public void stopGame(String reason) {
         running = false;
-        for(Player player : players) {
-            player.getWebSocket().send(PacketCodec.encode(new StopGamePacket(reason)));
+        if(!players.isEmpty()) {
+            for(Player player : players) {
+                player.getWebSocket().send(PacketCodec.encode(new StopGamePacket(reason)));
+            }
         }
     }
 
@@ -62,6 +69,10 @@ public class Session {
         players.add(player);
     }
 
+    public void removePlayer(Player player) {
+        players.remove(player);
+    }
+
     public Player getNextPlayer(boolean updatePlayerIndex) {
         Player player = players.get(getNextPlayerIndex());
         if(updatePlayerIndex) currentPlayerIndex = getNextPlayerIndex();
@@ -75,6 +86,10 @@ public class Session {
 
     private int getNextPlayerIndex() {
         return currentPlayerIndex+1 > maxPlayers ? 0 : currentPlayerIndex+1;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
     }
 
     public int getMaxPlayers() {

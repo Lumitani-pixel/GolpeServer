@@ -30,6 +30,12 @@ public class Server extends WebSocketServer {
     @Override
     public void onClose(WebSocket webSocket, int code, String reason, boolean remote) {
         log(webSocket.getRemoteSocketAddress()+" disconnected because of "+reason+". Exit code: "+code);
+
+        for(Player player : session.getPlayers()) {
+            if(player.getWebSocket() != webSocket) continue;
+            log(player.getName()+" left");
+            if(session.isRunning()) session.stopGame(player.getName()+" left midgame");
+        }
     }
 
     @Override
