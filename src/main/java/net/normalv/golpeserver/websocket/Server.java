@@ -5,6 +5,7 @@ import net.normalv.golpeserver.game.Player;
 import net.normalv.golpeserver.game.Session;
 import net.normalv.golpeserver.websocket.packets.Packet;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
+import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
 import net.normalv.golpeserver.websocket.packets.impl.ConfirmRegistrationPacket;
 import net.normalv.golpeserver.websocket.packets.impl.RegisterPacket;
 import org.java_websocket.WebSocket;
@@ -45,6 +46,10 @@ public class Server extends WebSocketServer {
 
         if(packet instanceof RegisterPacket registerPacket) {
             handleRegistration(registerPacket, webSocket);
+        }
+        else if(packet instanceof CardPacket cardPacket) {
+            boolean dealtCard = session.dealCard(webSocket, cardPacket.card);
+            session.sendNextMove(dealtCard);
         }
     }
 

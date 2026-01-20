@@ -6,7 +6,9 @@ import net.normalv.golpeserver.manager.CardManager;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
 import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
 import net.normalv.golpeserver.websocket.packets.impl.NextMovePacket;
+import net.normalv.golpeserver.websocket.packets.impl.RejectCardPacket;
 import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
+import org.java_websocket.WebSocket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class Session {
         dealtCards.add(cardDeck.removeFirst());
 
         // Tell the first player it's their move
-        sendNextMove();
+        sendNextMove(true);
     }
 
     public void stopGame(String reason) {
@@ -52,9 +54,25 @@ public class Session {
         MainApplication.getServer().broadcast(PacketCodec.encode(new StopGamePacket(reason)));
     }
 
-    public void sendNextMove() {
-        Player player = getNextPlayer(true);
+    public void sendNextMove(boolean dealtCard) {
+        Player player = dealtCard ? getNextPlayer(true) : getCurrentPlayer();
         MainApplication.getServer().broadcast(PacketCodec.encode(new NextMovePacket(player.getUuid(), dealtCards.getLast())));
+    }
+
+    public boolean dealCard(WebSocket webSocket, CardManager.Card card) {
+        Player player = getPlayerByWS(webSocket);
+        if(player == null){
+            stopGame("Player corruption");
+            return false;
+        }
+        else if(getCurrentPlayer().getUuid() != player.getUuid() || player.hasCard(card)) {
+            webSocket.send(PacketCodec.encode(new RejectCardPacket("You don't have this card or it's not your turn")));
+            return false;
+        }
+
+        getCurrentPlayer().removeCard(card);
+        dealtCards.add(card);
+        return true;
     }
 
     public List<CardManager.Card> getCardsFromDeck(int amount) {
@@ -92,6 +110,14 @@ public class Session {
 
     public Player getCurrentPlayer() {
         return players.get(currentPlayerIndex);
+    }
+
+    public Player getPlayerByWS(WebSocket webSocket) {
+        for(Player player : players) {
+            if(player.getWebSocket() != webSocket) continue;
+            return player;
+        }
+        return null;
     }
 
     private int getNextPlayerIndex() {

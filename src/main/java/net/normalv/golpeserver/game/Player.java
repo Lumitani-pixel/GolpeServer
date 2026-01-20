@@ -31,6 +31,14 @@ public class Player {
         handCards.addAll(cards);
     }
 
+    public void removeCard(CardManager.Card card) {
+        handCards.remove(card);
+    }
+
+    public void removeCards(List<CardManager.Card> cards) {
+        handCards.removeAll(cards);
+    }
+
     public List<CardManager.Card> getHandCards() {
         return handCards;
     }
