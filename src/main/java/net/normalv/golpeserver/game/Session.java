@@ -5,6 +5,7 @@ import net.normalv.golpeserver.MainController;
 import net.normalv.golpeserver.manager.CardManager;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
 import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
+import net.normalv.golpeserver.websocket.packets.impl.NextMovePacket;
 import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class Session {
     private List<CardManager.Card> cardDeck;
+    private List<CardManager.Card> dealtCards;
     private List<Player> players = new ArrayList<>();
     private int maxPlayers;
     private int currentPlayerIndex = 0;
@@ -30,12 +32,18 @@ public class Session {
         cardDeck = MainApplication.cardManager.getCardsFromJson(true);
         running = true;
 
+        // Send a deck of 7 cards to each player
         for(Player player : players) {
             for(CardManager.Card card : getCardsFromDeck(7)) {
                 player.getWebSocket().send(PacketCodec.encode(new CardPacket(card)));
                 player.addCard(card);
             }
         }
+        // Lay down one inital card
+        dealtCards.add(cardDeck.removeFirst());
+
+        // Tell the first player it's their move
+        sendNextMove();
     }
 
     public void stopGame(String reason) {
@@ -45,6 +53,11 @@ public class Session {
                 player.getWebSocket().send(PacketCodec.encode(new StopGamePacket(reason)));
             }
         }
+    }
+
+    public void sendNextMove() {
+        Player player = getNextPlayer(true);
+        MainApplication.getServer().broadcast(PacketCodec.encode(new NextMovePacket(player.getUuid(), dealtCards.getLast())));
     }
 
     public List<CardManager.Card> getCardsFromDeck(int amount) {
@@ -57,7 +70,7 @@ public class Session {
     }
 
     public CardManager.Card getCardFromDeck(boolean removeCard) {
-        CardManager.Card card = cardDeck.getFirst();;
+        CardManager.Card card = cardDeck.getFirst();
         if(removeCard) cardDeck.removeFirst();
 
         return card;
