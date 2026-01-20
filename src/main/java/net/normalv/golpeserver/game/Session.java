@@ -48,11 +48,8 @@ public class Session {
 
     public void stopGame(String reason) {
         running = false;
-        if(!players.isEmpty()) {
-            for(Player player : players) {
-                player.getWebSocket().send(PacketCodec.encode(new StopGamePacket(reason)));
-            }
-        }
+        if(players.isEmpty()) return;
+        MainApplication.getServer().broadcast(PacketCodec.encode(new StopGamePacket(reason)));
     }
 
     public void sendNextMove() {
