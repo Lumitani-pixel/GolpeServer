@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,6 +75,15 @@ public class CardManager {
             stringColors[i] = colors.get(i).getAsString();
         }
         return stringColors;
+    }
+
+    public boolean canLayCard(Card topCard, Card dealtCard) {
+        if(dealtCard.color.equalsIgnoreCase("black") ||
+                Arrays.asList(topCard.nextColors).contains(dealtCard.color) ||
+                topCard.value.equals(dealtCard.value))
+            return true;
+        
+        return false;
     }
 
     public record Card(String color, String[] nextColors, String value) {

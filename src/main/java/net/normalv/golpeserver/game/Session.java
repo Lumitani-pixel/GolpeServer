@@ -69,6 +69,10 @@ public class Session {
             webSocket.send(PacketCodec.encode(new RejectCardPacket("You don't have this card or it's not your turn")));
             return false;
         }
+        else if(!MainApplication.cardManager.canLayCard(dealtCards.getFirst(), card)) {
+            webSocket.send(PacketCodec.encode(new RejectCardPacket("This card can not be dealt")));
+            return false;
+        }
 
         getCurrentPlayer().removeCard(card);
         dealtCards.add(card);
