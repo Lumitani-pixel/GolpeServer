@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Session {
-    private List<CardManager.Card> cardDeck;
-    private List<CardManager.Card> dealtCards;
+    private List<CardManager.Card> cardDeck = new ArrayList<>();
+    private List<CardManager.Card> dealtCards = new ArrayList<>();
     private List<Player> players = new ArrayList<>();
     private int maxPlayers;
     private int currentPlayerIndex = 0;
@@ -125,7 +125,7 @@ public class Session {
     }
 
     private int getNextPlayerIndex() {
-        return currentPlayerIndex+1 > maxPlayers ? 0 : currentPlayerIndex+1;
+        return currentPlayerIndex+1 >= maxPlayers ? 0 : currentPlayerIndex+1;
     }
 
     public List<Player> getPlayers() {

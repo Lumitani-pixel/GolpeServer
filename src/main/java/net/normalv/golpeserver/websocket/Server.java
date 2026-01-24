@@ -8,11 +8,13 @@ import net.normalv.golpeserver.websocket.packets.PacketCodec;
 import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
 import net.normalv.golpeserver.websocket.packets.impl.ConfirmRegistrationPacket;
 import net.normalv.golpeserver.websocket.packets.impl.RegisterPacket;
+import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.net.InetSocketAddress;
+import java.util.Arrays;
 import java.util.UUID;
 
 //TODO implement better logging
@@ -49,13 +51,18 @@ public class Server extends WebSocketServer {
         }
         else if(packet instanceof CardPacket cardPacket) {
             boolean dealtCard = session.dealCard(webSocket, cardPacket.card);
+
+            if(dealtCard && session.getNextPlayer(false).getHandCards().isEmpty()) {
+                broadcast(PacketCodec.encode(new StopGamePacket("Player won!")));
+                return;
+            }
             session.sendNextMove(dealtCard);
         }
     }
 
     @Override
     public void onError(WebSocket webSocket, Exception e) {
-        log(e.getMessage()+" on "+webSocket.getRemoteSocketAddress());
+        log(e.getMessage()+" on "+webSocket.getRemoteSocketAddress()+" stacktrace: "+ Arrays.toString(e.getStackTrace()));
     }
 
     @Override
