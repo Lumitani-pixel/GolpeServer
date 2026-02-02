@@ -1,11 +1,10 @@
 package net.normalv.golpeserver;
 
-import com.sun.tools.javac.Main;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 public class MainController {
     private static MainController instance;
@@ -53,7 +52,7 @@ public class MainController {
     }
 
     public void addTextToLog(String text) {
-        logs.appendText(text+"\n");
+        Platform.runLater(() -> logs.appendText(text + "\n"));
     }
 
     public static MainController getInstance() {

@@ -5,10 +5,7 @@ import net.normalv.golpeserver.game.Player;
 import net.normalv.golpeserver.game.Session;
 import net.normalv.golpeserver.websocket.packets.Packet;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
-import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
-import net.normalv.golpeserver.websocket.packets.impl.ConfirmRegistrationPacket;
-import net.normalv.golpeserver.websocket.packets.impl.RegisterPacket;
-import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
+import net.normalv.golpeserver.websocket.packets.impl.*;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -57,6 +54,18 @@ public class Server extends WebSocketServer {
                 return;
             }
             session.sendNextMove(dealtCard);
+        }
+        else if(packet instanceof CantDealPacket) {
+            if(!session.getCurrentPlayer().getWebSocket().equals(webSocket)) return;
+            else if(session.getCurrentPlayer().hasRequestedCard()) {
+                session.getCurrentPlayer().setRequestedCard(false);
+                session.sendNextMove(true);
+                return;
+            }
+
+            session.getCurrentPlayer().setRequestedCard(true);
+            webSocket.send(PacketCodec.encode(new CardPacket(session.getCardFromDeck(true))));
+            session.sendNextMove(false);
         }
     }
 

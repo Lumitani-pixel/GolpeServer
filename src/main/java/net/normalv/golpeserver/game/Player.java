@@ -12,6 +12,7 @@ public class Player {
     private UUID uuid;
     private String name;
     private WebSocket webSocket;
+    private boolean requestedCard;
 
     public Player(UUID uuid, String name, WebSocket webSocket) {
         this.uuid = uuid;
@@ -41,6 +42,14 @@ public class Player {
 
     public List<CardManager.Card> getHandCards() {
         return handCards;
+    }
+
+    public void setRequestedCard(boolean requestedCard) {
+        this.requestedCard = requestedCard;
+    }
+
+    public boolean hasRequestedCard() {
+        return requestedCard;
     }
 
     public UUID getUuid() {
