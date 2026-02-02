@@ -17,6 +17,7 @@ public class PacketManager {
         register("stop_game", StopGamePacket.class);
         register("next_move", NextMovePacket.class);
         register("reject_card", RejectCardPacket.class);
+        register("request_card", RequestCardPacket.class);
     }
 
     public void register(String id, Class<? extends Packet> clazz) {
