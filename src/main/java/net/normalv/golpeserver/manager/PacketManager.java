@@ -18,6 +18,7 @@ public class PacketManager {
         register("next_move", NextMovePacket.class);
         register("reject_card", RejectCardPacket.class);
         register("cant_deal", CantDealPacket.class);
+        register("reset_deck", ResetDeckPacket.class);
     }
 
     public void register(String id, Class<? extends Packet> clazz) {
