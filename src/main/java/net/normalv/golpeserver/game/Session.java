@@ -4,10 +4,7 @@ import net.normalv.golpeserver.MainApplication;
 import net.normalv.golpeserver.MainController;
 import net.normalv.golpeserver.manager.CardManager;
 import net.normalv.golpeserver.websocket.packets.PacketCodec;
-import net.normalv.golpeserver.websocket.packets.impl.CardPacket;
-import net.normalv.golpeserver.websocket.packets.impl.NextMovePacket;
-import net.normalv.golpeserver.websocket.packets.impl.RejectCardPacket;
-import net.normalv.golpeserver.websocket.packets.impl.StopGamePacket;
+import net.normalv.golpeserver.websocket.packets.impl.*;
 import org.java_websocket.WebSocket;
 
 import java.util.ArrayList;
@@ -89,10 +86,20 @@ public class Session {
     }
 
     public CardManager.Card getCardFromDeck(boolean removeCard) {
+        if(cardDeck.size() < 1) resetDeck();
+
         CardManager.Card card = cardDeck.getFirst();
         if(removeCard) cardDeck.removeFirst();
 
         return card;
+    }
+
+    private void resetDeck() {
+        for(int i = 1; i < dealtCards.size(); i++) {
+            cardDeck.add(cardDeck.size(), dealtCards.remove(i));
+        }
+
+        MainApplication.getServer().broadcast(PacketCodec.encode(new ResetDeckPacket()));
     }
 
     public void addPlayer(Player player) {
