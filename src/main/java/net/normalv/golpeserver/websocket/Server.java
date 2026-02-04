@@ -49,7 +49,7 @@ public class Server extends WebSocketServer {
         else if(packet instanceof CardPacket cardPacket) {
             boolean dealtCard = session.dealCard(webSocket, cardPacket.card);
 
-            if(dealtCard && session.getNextPlayer(false).getHandCards().isEmpty()) {
+            if(dealtCard && session.getCurrentPlayer().getHandCards().isEmpty()) {
                 broadcast(PacketCodec.encode(new StopGamePacket("Player won!")));
                 return;
             }
@@ -95,8 +95,9 @@ public class Server extends WebSocketServer {
         return session;
     }
 
+    //TODO: Implement logger limiter
     public static void log(String msg) {
         System.out.println(msg);
-        MainController.getInstance().addTextToLog(msg);
+        //MainController.getInstance().addTextToLog(msg);
     }
 }
