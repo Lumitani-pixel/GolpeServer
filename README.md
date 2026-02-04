@@ -9,21 +9,19 @@ GolpeServer is the backend for an automatic card game called Golpe, designed for
 
 ## 🚀 Features
 
-✔ Handles player and bot connections\
-✔ Coordinates game state and turns\
-✔ Manages game logic for Golpe\
-✔ Provides a foundation for bots to play automatically
+* Handles player and bot connections\
+* Coordinates game state and turns\
+* Manages game logic for Golpe\
+* Provides a foundation for bots to play automatically
 
 ⚠️ Work in progress — core gameplay and networking still being developed.
 
 ## 🧠 Why This Project Exists
 
-You created this to learn how network servers work, how to structure game logic, and how game clients and servers interact over connections. Projects like this are great for improving coding skills and understanding real-world architecture. A clear readme also helps your future self remember how everything works.
+You created this to learn how network servers work, how to structure game logic, and how game clients and servers interact over connections. Aswell as learning how to use javafx.
 
 📦 Tech Stack
 
-Language: Java
-
-Build: Maven
-
+Language: Java\
+Build: Maven\
 (Optional later) **Websockets / TCP networking depending on implementation)
