@@ -62,7 +62,7 @@ public class Session {
             stopGame("Player corruption");
             return false;
         }
-        else if(getCurrentPlayer().getUuid() != player.getUuid() || !player.hasCard(card)) {
+        else if(getCurrentPlayer().getUuid() != player.getUuid()) {
             webSocket.send(PacketCodec.encode(new RejectCardPacket("You don't have this card or it's not your turn")));
             return false;
         }

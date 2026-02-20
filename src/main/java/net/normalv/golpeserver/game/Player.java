@@ -4,6 +4,7 @@ import net.normalv.golpeserver.manager.CardManager;
 import org.java_websocket.WebSocket;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,8 +21,12 @@ public class Player {
         this.webSocket = webSocket;
     }
 
+    //FIXME: Cards are not always detected right
     public boolean hasCard(CardManager.Card card) {
-        return handCards.contains(card);
+        for(CardManager.Card handCard : handCards) {
+            if(handCard.value().equals(card.value()) && handCard.color().equals(card.color()) && Arrays.equals(handCard.nextColors(), card.nextColors())) return true;
+        }
+        return false;
     }
 
     public void addCard(CardManager.Card card) {
