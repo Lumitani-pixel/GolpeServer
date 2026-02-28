@@ -1,27 +1,60 @@
-# 🃏 GolpeServer
+# GolpeServer
 
-Server-side application for the Golpe automatic card game.
-This server accepts connections from bots or real players and runs game logic for Golpe. It’s a personal project to learn Java and networked multiplayer systems — not finished yet!
+Server-side application for the Golpe card game - a UNO-style multiplayer card game between bots.
 
-## 📌 About
+## About
 
-GolpeServer is the backend for an automatic card game called Golpe, designed for learning and testing. Multiple clients (bots or players) can connect to play matches with rules managed by this server. The project is written in Java using Maven.
+GolpeServer is the backend that handles:
+- WebSocket connections from clients (port 1598)
+- Game state management and rules
+- Player registration and turn coordination
+- Card deck management and shuffling
 
-## 🚀 Features
+## Prerequisites
 
-* Handles player and bot connections\
-* Coordinates game state and turns\
-* Manages game logic for Golpe\
-* Provides a foundation for bots to play automatically
+- Java 21
+- Maven 3.9+
 
-⚠️ Work in progress — core gameplay and networking still being developed.
+## Running the Server
 
-## 🧠 Why This Project Exists
+```bash
+cd GolpeServer
+mvn clean javafx:run
+```
 
-You created this to learn how network servers work, how to structure game logic, and how game clients and servers interact over connections. Aswell as learning how to use javafx.
+The server will start on `localhost:1598` and display a JavaFX window for monitoring.
 
-📦 Tech Stack
+## Testing
 
-Language: Java\
-Build: Maven\
-(Optional later) **Websockets / TCP networking depending on implementation)
+Run all tests:
+```bash
+mvn test
+```
+
+Run a specific test class:
+```bash
+mvn test -Dtest=CardManagerTest
+```
+
+Run a single test method:
+```bash
+mvn test -Dtest=CardManagerTest#canLayCardTrueTest
+```
+
+## Building
+
+```bash
+mvn clean package
+```
+
+## Game Rules
+
+Golpe is a UNO-style card game where:
+1. Players are dealt 7 cards each
+2. Players take turns laying cards that match the top card's color or value
+3. Special cards (Block, PlusOne, PlusTwo) have unique effects
+4. First player to empty their hand wins
+
+## Development
+
+The server uses JSON packets over WebSocket for client communication. See the `websocket/packets` package for packet types.
